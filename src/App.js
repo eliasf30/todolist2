@@ -1,25 +1,55 @@
-import logo from './logo.svg';
+
 import './App.css';
 
+import { useRef } from 'react';
+import { useState } from "react";
+import { useEffect } from "react";
+import { Todolist }  from './todolist.jsx';
+
+
+
+
+
 function App() {
+
+
+  const todotaskref = useRef();
+
+  const [todos,settodos] = useState([])
+    
+  const add = () => {
+    const task = todotaskref.current.value;
+    if (task === "") return;
+
+    settodos((prevtodos) => {
+      return [...prevtodos,{ task }]
+    })
+    todotaskref.current.value = null;
+  }
+  const taskdelete = () => {
+    settodos([])
+
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      
+      <input className='input' ref={todotaskref} type="text" placeholder='nueva tarea'></input>
+      <div className='buttondiv'>
+      <button className='button' onClick={add}>add</button>
+      <button className='button' onClick={taskdelete}>delete</button>
+      </div>
+      
+      <Todolist todos={todos}/>
+
+      
+     
+      
+      
     </div>
   );
+
 }
+
 
 export default App;
